@@ -1,8 +1,12 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
+const helmet = require("helmet");
 const app = express();
 
 app.use(express.json());
+app.use(helmet());
+app.use(cors());
 
 require("dotenv").config();
 const { ensureAuthenticated } = require("./middleware");
