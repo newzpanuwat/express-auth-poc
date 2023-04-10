@@ -1,27 +1,11 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const app = express();
-require("dotenv").config();
 
 app.use(express.json());
 
-// verifyToken
-const ensureAuthenticated = (req, res, next) => {
-  var token = req.header("Authorization");
-  if (!token) return res.status(401).send({ status: "FAILED", message: "Unauthorized" });
-  try {
-    token = token.split(" ")[1];
-    jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
-      if (err) return res.status(401).send({ auth: false, message: "Failed to authenticate token." });
-
-      req.user = decoded;
-      next();
-    });
-  } catch (err) {
-    return res.status(401).send({ status: "FAILED", message: "Unauthorized" });
-  }
-  next();
-};
+require("dotenv").config();
+const { ensureAuthenticated } = require("./middleware");
 
 app.get("/", (req, res) => {
   try {
@@ -33,11 +17,12 @@ app.get("/", (req, res) => {
 
 // auth
 app.post("/api/v1/login", (req, res) => {
-  if (!req.body.user) {
+  const { user } = req.body;
+  if (!user) {
     return res.status(400).send({ status: "FAILED", message: "Bad Request" });
   }
   try {
-    jwt.sign(req.body.user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }, (err, token) => {
+    jwt.sign(user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }, (err, token) => {
       if (!err) res.send({ auth: true, status: "OK", token });
       console.log(err);
     });
@@ -63,9 +48,7 @@ app.get("/api/v1/profile", ensureAuthenticated, (req, res) => {
 
 app.get("/api/v1/test", ensureAuthenticated, (req, res) => {
   if (!req.user) return;
-
   try {
-    const { id, email } = req.user;
     res.status(200).send({
       auth: true,
       status: "OK",
