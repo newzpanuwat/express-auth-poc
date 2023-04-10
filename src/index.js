@@ -33,8 +33,11 @@ app.get("/", (req, res) => {
 
 // auth
 app.post("/api/v1/login", (req, res) => {
+  if (!req.body.user) {
+    return res.status(400).send({ status: "FAILED", message: "Bad Request" });
+  }
   try {
-    jwt.sign(req.body, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }, (err, token) => {
+    jwt.sign(req.body.user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }, (err, token) => {
       if (!err) res.send({ auth: true, status: "OK", token });
       console.log(err);
     });
