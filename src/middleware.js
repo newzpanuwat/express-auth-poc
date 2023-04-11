@@ -2,20 +2,21 @@ const jwt = require("jsonwebtoken");
 
 // middleware
 const ensureAuthenticated = (req, res, next) => {
-  var token = req.header("Authorization");
-  if (!token) return res.status(401).send({ status: "FAILED", message: "Unauthorized" });
-  try {
-    token = token.split(" ")[1];
-    jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
-      if (err) return res.status(401).send({ auth: false, message: "Failed to authenticate token." });
-
-      req.user = decoded;
-      next();
-    });
-  } catch (err) {
-    return res.status(500).send({ status: "FAILED", message: "Internal server error" });
+  if (req.headers["authorization"]) {
+    try {
+      let authorization = req.headers["authorization"].split(" ");
+      if (authorization[0] !== "Bearer") {
+        return res.status(401).send({ auth: false, message: "Unauthorized" });
+      } else {
+        req.user = jwt.verify(authorization[1], process.env.JWT_SECRET);
+        next();
+      }
+    } catch (err) {
+      return res.status(403).send({ auth: false, message: err });
+    }
+  } else {
+    return res.status(401).send({ auth: false, message: "Unauthorized" });
   }
-  next();
 };
 
 module.exports = { ensureAuthenticated };
