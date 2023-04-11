@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 // auth
-app.post("/api/v1/login", (req, res) => {
+app.post("/auth", (req, res) => {
   const { user } = req.body;
   if (!user) {
     return res.status(400).send({ status: "FAILED", message: "Bad Request" });
