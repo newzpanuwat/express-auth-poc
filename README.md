@@ -15,7 +15,7 @@ yarn start-dev
 
 ```
 # Login
-/api/v1/login
+/auth
 
 #Profile
 /api/v1/profile
