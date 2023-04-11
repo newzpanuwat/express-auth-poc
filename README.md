@@ -26,7 +26,7 @@ yarn start-dev
 
 # Remark
 
-- This token will expire in 60s becareful when use it
+- This token will expire in 120s becareful when use it
 
 # Example
 
