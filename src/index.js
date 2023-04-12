@@ -31,7 +31,7 @@ app.post("/auth", (req, res) => {
       console.log(err);
     });
   } catch (err) {
-    res.status(500).send({ status: "FAILED", message: "Internal server error" });
+    res.status(500).send({ status: "FAILED", message: err });
   }
 });
 
@@ -46,7 +46,7 @@ app.get("/api/v1/profile", ensureAuthenticated, (req, res) => {
       data: [{ user_id: id, email: email }],
     });
   } catch (err) {
-    res.status(500).send({ status: "FAILED", message: "Internal server error" });
+    res.status(500).send({ status: "FAILED", message: err });
   }
 });
 
