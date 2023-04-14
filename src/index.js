@@ -9,13 +9,13 @@ app.use(helmet());
 app.use(cors());
 
 require("dotenv").config();
-const { ensureAuthenticated } = require("./middleware");
+const { ensureAuthenticated, authUser } = require("./middleware");
 
 app.get("/", (req, res) => {
   try {
     res.status(200).send({ status: "OK", data: req.body });
   } catch (err) {
-    res.status(500).send({ status: "FAILED", message: "Internal server error" });
+    res.status(500).send({ status: "FAILED", message: err });
   }
 });
 
@@ -27,15 +27,17 @@ app.post("/auth/login", (req, res) => {
   }
   try {
     jwt.sign(user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }, (err, token) => {
-      if (!err) res.send({ auth: true, status: "OK", token });
-      console.log(err);
+      if (err) {
+        console.log(err);
+      }
+      res.send({ auth: true, status: "OK", token });
     });
   } catch (err) {
     res.status(500).send({ status: "FAILED", message: err });
   }
 });
 
-app.get("/api/v1/profile", ensureAuthenticated, (req, res) => {
+app.get("/api/v1/profile", ensureAuthenticated, authUser, (req, res) => {
   if (!req.user) return;
 
   try {
@@ -50,7 +52,7 @@ app.get("/api/v1/profile", ensureAuthenticated, (req, res) => {
   }
 });
 
-app.get("/api/v1/test", ensureAuthenticated, (req, res) => {
+app.get("/api/v1/test", ensureAuthenticated, authUser, (req, res) => {
   if (!req.user) return;
   try {
     res.status(200).send({
