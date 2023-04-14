@@ -32,7 +32,7 @@ yarn start-dev
 
 ```
 # Login
-curl -d '{"user": { "id": "002", "email": "dev@dev.com" } }' -H "Content-Type: application/json" -X POST https://auth-poc-ten.vercel.app/auth
+curl -d '{"user": { "id": "01", "email": "dev@idev.com" } }' -H "Content-Type: application/json" -X POST https://auth-poc-ten.vercel.app/auth/login
 
 # Profile
 curl https://auth-poc-ten.vercel.app/api/v1/profile -H "Accept: application/json" -H "Authorization: Bearer {token}"
