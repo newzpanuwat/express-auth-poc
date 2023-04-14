@@ -1,0 +1,9 @@
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAyMjA3ODkyNTUwNSIsImVtYWlsIjoiZGV2MkBpYW1kZXYuY29tIiwiaWF0IjoxNjgxNDQ3NDEyLCJleHAiOjE2ODE0NDc1MzJ9.u5saXbD_6TkWTvpCGoObPQ2fjY5ntf6MKwrnodYzNqI
+@hostname = http://localhost:4000
+@contentType = application/json
+
+
+GET {{hostname}}/api/v1/profile
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
