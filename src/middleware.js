@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { users } = require("../helpers/data");
 
 // middleware
 const ensureAuthenticated = (req, res, next) => {
@@ -19,4 +20,13 @@ const ensureAuthenticated = (req, res, next) => {
   }
 };
 
-module.exports = { ensureAuthenticated };
+const authUser = (req, res, next) => {
+  const { email } = req.user;
+  const user = users.findIndex((e) => e.email === email);
+  if (!email || user < 0) {
+    return res.status(403).send({ auth: false, message: "Unauthorized" });
+  }
+  next();
+};
+
+module.exports = { ensureAuthenticated, authUser };
