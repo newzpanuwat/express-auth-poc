@@ -1,0 +1,7 @@
+POST http://localhost:4000/auth/token
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxIiwiZW1haWwiOiJjdXN0b21lckBpZGV2LmNvbSIsImlhdCI6MTY4MTQ4MzA2OH0.dVWitb23Pv2CO3BUQJHfGMj15BbSlWn5R1h3agbd-_s"
+}
+
