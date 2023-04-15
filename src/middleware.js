@@ -9,7 +9,7 @@ const ensureAuthenticated = (req, res, next) => {
       if (authorization[0] !== "Bearer") {
         return res.status(401).send({ auth: false, message: "Unauthorized" });
       } else {
-        req.user = jwt.verify(authorization[1], process.env.JWT_SECRET);
+        req.user = jwt.verify(authorization[1], process.env.ACCESS_TOKEN_SECRET);
         next();
       }
     } catch (err) {

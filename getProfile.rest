@@ -1,4 +1,4 @@
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxIiwiZW1haWwiOiJkZXZAaWRldi5jb20iLCJpYXQiOjE2ODE0NDk2MjgsImV4cCI6MTY4MTQ0OTc0OH0.Atfp3ABzvF5aG-RzFjhudcbLtHFp-vyF4Ga7FqF4eoo
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxIiwiZW1haWwiOiJjdXN0b21lckBpZGV2LmNvbSIsImlhdCI6MTY4MTQ4MzA2OCwiZXhwIjoxNjgxNDgzMTg4fQ.G1Z1HNFhCqTnFLTRoQBPl77A_dx5J9aE6v20VPtkXUc
 @hostname = http://localhost:4000
 @contentType = application/json
 

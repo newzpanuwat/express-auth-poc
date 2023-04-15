@@ -7,31 +7,44 @@ const app = express();
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
-
 require("dotenv").config();
+
+const generateAccessToken = require("../helpers/generateAccesstoken");
 const { ensureAuthenticated, authUser } = require("./middleware");
+
+var refreshTokens = [];
 
 app.get("/", (req, res) => {
   try {
-    res.status(200).send({ status: "OK", data: req.body });
+    res.status(200).send({ status: "OK", data: "Welcome auth POC" });
   } catch (err) {
     res.status(500).send({ status: "FAILED", message: err });
   }
 });
 
-// auth
+app.post("/auth/refresh", (req, res) => {
+  const refreshToken = req.body.token;
+  if (!refreshToken || !refreshTokens.includes(refreshToken))
+    return res.status(403).send({ status: "FAILED", message: "Refersh token is null" });
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(403).send({ status: "FAILED", message: err });
+    const accessToken = generateAccessToken(user);
+    res.status(200).send({ status: "OK", accessToken });
+  });
+});
+
 app.post("/auth/login", (req, res) => {
   const { user } = req.body;
   if (!user) {
     return res.status(400).send({ status: "FAILED", message: "Bad Request" });
   }
   try {
-    jwt.sign(user, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }, (err, token) => {
-      if (err) {
-        console.log(err);
-      }
-      res.send({ auth: true, status: "OK", token });
-    });
+    const accessToken = generateAccessToken(user);
+    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+    refreshTokens.push(refreshToken);
+
+    res.send({ auth: true, status: "OK", accessToken, refreshToken });
   } catch (err) {
     res.status(500).send({ status: "FAILED", message: err });
   }
