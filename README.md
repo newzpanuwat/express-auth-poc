@@ -17,6 +17,9 @@ yarn start-dev
 # Login
 /auth/login
 
+# get token
+/auth/refresh
+
 #Profile
 /api/v1/profile
 
