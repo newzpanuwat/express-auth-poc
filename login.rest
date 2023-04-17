@@ -4,7 +4,7 @@ Content-Type: application/json
 {
     "user": {
         "id": "01",
-        "email": "customer@idev.com"
+        "email": "dev@idev.com"
     }  
 }
 
