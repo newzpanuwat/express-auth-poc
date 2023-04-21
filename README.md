@@ -4,6 +4,7 @@ POC Auth
 
 - Auth jwt
 - express
+- HMAC algo
 
 # Run
 
